@@ -1,25 +1,27 @@
-function App() {
-  return (
-    <main>
-      <h1>Hi, I'm (your name)</h1>
-      <img alt="My profile pic" src="https://via.placeholder.com/350" />
-      <h2>About Me</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-
-      <div>
-        <a href="https://github.com">GitHub</a>
-        <a href="https://linkedin.com">LinkedIn</a>
-      </div>
-    </main>
-  );
-}
-
-export default App;
+import React, { useState } from 'react'; 
+function App() { const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [interests, setInterests] = useState([]); 
+const [submitted, setSubmitted] = useState(false); 
+const handleSubmit = (e) => { e.preventDefault(); 
+setSubmitted(true);
+ };
+const handleInterestChange = (e) => { 
+const { value, checked } = e.target;
+setInterests((prev) => checked ? [...prev, value] : prev.filter((interest) => interest !== value) ); 
+};
+ return ( 
+ <div> <h1>Newsletter Signup</h1> <form onSubmit={handleSubmit}> <div> <label htmlFor="name">Name:</label>
+  <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} /> </div>
+   <div> <label htmlFor="email">Email:</label> 
+   <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} /> </div>
+    <div> <fieldset> <legend>Interests:</legend> <label>
+     <input type="checkbox" value="Tech" onChange={handleInterestChange} /> Tech </label> 
+    <label> <input type="checkbox" value="Sports" onChange={handleInterestChange} /> Sports </label> 
+    <label> <input type="checkbox" value="Music" onChange={handleInterestChange} /> Music </label>
+     </fieldset> </div> <button type="submit">Submit</button> </form> 
+     {submitted && ( <div> <p>Thank you, {name}, for signing up!</p>
+      <p>Your interests are: {interests.join(', ')}</p> </div> )} </div>
+      );
+     }
+      export default App;
